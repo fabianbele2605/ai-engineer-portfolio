@@ -46,16 +46,30 @@ class Conversacion(Base):
 Base.metadata.create_all(engine)
 
 # --- Documentos ---
+def limpiar_markdown(texto: str) -> str:
+    import re
+    texto = re.sub(r'```[\s\S]*?```', '', texto)  # bloques de código
+    texto = re.sub(r'#{1,6}\s+', '', texto)        # títulos
+    texto = re.sub(r'\*{1,2}([^*]+)\*{1,2}', r'\1', texto)  # negrita/cursiva
+    texto = re.sub(r'`([^`]+)`', r'\1', texto)    # código inline
+    texto = re.sub(r'\|.*\|', '', texto)           # tablas
+    texto = re.sub(r'^[-*+]\s+', '', texto, flags=re.MULTILINE)  # listas
+    texto = re.sub(r'>\s+', '', texto)             # citas
+    return texto.strip()
+
 def cargar_documentos(carpeta="documentos"):
     chunks, fuentes = [], []
     for archivo in os.listdir(carpeta):
-        if archivo.endswith(".txt"):
+        if archivo.endswith(".txt") or archivo.endswith(".md"):
             with open(f"{carpeta}/{archivo}", "r") as f:
-                for linea in f:
+                contenido = f.read()
+                if archivo.endswith(".md"):
+                    contenido = limpiar_markdown(contenido)
+                for linea in contenido.split("\n"):
                     linea = linea.strip()
-                    if linea:
+                    if len(linea) > 30:  # ignorar líneas muy cortas
                         chunks.append(linea)
-                        fuentes.append(archivo.replace(".txt", ""))
+                        fuentes.append(archivo.replace(".txt", "").replace(".md", ""))
     return chunks, fuentes
 
 chunks, fuentes = cargar_documentos()
@@ -85,7 +99,7 @@ Answer:"""
 # --- Modelos ---
 class Pregunta(BaseModel):
     texto: str
-    k: int = 3
+    k: int = 5
 
 # --- Endpoints ---
 @app.get("/")

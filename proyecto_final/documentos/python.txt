@@ -28,3 +28,13 @@ Python pip is the package installer for installing third-party libraries.
 Python 3.12 introduced performance improvements and better error messages.
 Python type hints allow specifying expected data types for better code documentation.
 Python async/await enables writing asynchronous code for better performance with I/O operations.
+Un entorno virtual en Python es un directorio aislado que contiene una instalación de Python y sus dependencias.
+Los entornos virtuales permiten tener diferentes versiones de librerías para cada proyecto sin conflictos.
+Se crea un entorno virtual con el comando python3 -m venv .venv y se activa con source .venv/bin/activate.
+El entorno virtual activo se identifica por el prefijo (.venv) al inicio de la terminal.
+El comando deactivate desactiva el entorno virtual y vuelve al Python del sistema.
+Las listas en Python son colecciones ordenadas y mutables que pueden contener elementos de diferentes tipos.
+Los diccionarios en Python almacenan pares clave-valor y son equivalentes a objetos JSON.
+Las funciones en Python se definen con la palabra clave def y pueden tener parámetros con valores por defecto.
+Las clases en Python permiten programación orientada a objetos con herencia y encapsulamiento.
+El manejo de errores en Python usa bloques try-except para capturar excepciones sin que el programa falle.
