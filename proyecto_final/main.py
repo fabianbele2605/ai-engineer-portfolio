@@ -5,12 +5,20 @@ import boto3
 import numpy as np
 from datetime import datetime
 from fastapi import FastAPI, HTTPException
+from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from sentence_transformers import SentenceTransformer
 from sqlalchemy import create_engine, Column, Integer, String, Text, DateTime
 from sqlalchemy.orm import DeclarativeBase, Session
 
 app = FastAPI(title="Chat con Documentos - RAG + Claude", version="3.0")
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 embedder = SentenceTransformer("all-MiniLM-L6-v2")
 bedrock = boto3.client("bedrock-runtime", region_name="us-east-1")
 MODEL_ID = "anthropic.claude-3-haiku-20240307-v1:0"

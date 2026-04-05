@@ -5,3 +5,4 @@ __pycache__/
 *.png
 .env
 *.db
+proyecto_final/frontend/node_modules/
