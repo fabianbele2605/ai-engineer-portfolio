@@ -1,0 +1,28 @@
+Large Language Models are neural networks trained on massive text datasets to understand language.
+GPT stands for Generative Pre-trained Transformer, developed by OpenAI.
+Claude is an AI assistant developed by Anthropic focused on safety and helpfulness.
+BERT is a bidirectional transformer model developed by Google for NLP tasks.
+Transformers use self-attention mechanisms to process entire sequences simultaneously.
+Self-attention allows each token to attend to all other tokens in the sequence.
+The attention mechanism computes relevance scores between all pairs of tokens.
+Tokenization converts raw text into numerical tokens for language model processing.
+BPE (Byte Pair Encoding) is a tokenization algorithm used by GPT models.
+WordPiece is a tokenization algorithm used by BERT that splits unknown words into subwords.
+Context window is the maximum number of tokens a language model can process at once.
+Temperature controls the randomness of language model outputs, higher means more creative.
+Top-p sampling selects tokens from the smallest set whose cumulative probability exceeds p.
+Zero-shot learning allows models to perform tasks without any task-specific training examples.
+Few-shot learning provides a small number of examples in the prompt to guide the model.
+Chain-of-thought prompting encourages models to show reasoning steps before answering.
+Hallucination occurs when a language model generates plausible but factually incorrect text.
+RAG reduces hallucinations by grounding model responses in retrieved factual documents.
+Hugging Face is a platform providing thousands of pre-trained models and datasets.
+Sentence Transformers convert sentences into dense vector embeddings for semantic search.
+FAISS enables fast approximate nearest neighbor search over millions of vectors.
+Vector databases store and retrieve embeddings efficiently for RAG applications.
+Fine-tuning adapts a pre-trained language model to a specific domain or task.
+RLHF (Reinforcement Learning from Human Feedback) aligns LLMs with human preferences.
+Prompt engineering designs effective inputs to elicit desired outputs from language models.
+System prompts provide instructions and context to guide language model behavior.
+LLM inference is the process of generating text from a trained language model.
+Model quantization reduces model size by using lower precision numerical representations.

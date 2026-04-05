@@ -1,7 +1,29 @@
 AWS is Amazon Web Services, the world's most comprehensive cloud computing platform.
-AWS EC2 provides virtual servers in the cloud for running applications.
-AWS S3 is an object storage service for storing files, images and datasets.
+AWS was launched in 2006 and is the leading cloud provider with over 200 services.
+AWS EC2 provides virtual servers in the cloud for running applications at any scale.
+AWS S3 is an object storage service for storing files, images, datasets and backups.
 AWS Lambda allows running code without managing servers, paying only for execution time.
-AWS ECR is a container registry for storing and deploying Docker images.
+AWS Lambda supports Python, Node.js, Java, Go, Ruby and other runtimes.
+AWS ECR is a container registry for storing and deploying Docker images securely.
 AWS App Runner deploys containerized applications automatically with auto-scaling.
-AWS Bedrock provides access to foundation models like Claude and Llama via API.
+AWS ECS is a container orchestration service for running Docker containers at scale.
+AWS EKS is a managed Kubernetes service for deploying containerized applications.
+AWS RDS provides managed relational databases like PostgreSQL, MySQL and Aurora.
+AWS DynamoDB is a fully managed NoSQL database with single-digit millisecond performance.
+AWS Bedrock provides access to foundation models like Claude, Llama and Titan via API.
+AWS Bedrock supports RAG through Knowledge Bases with automatic vector storage.
+AWS SageMaker is a fully managed ML platform for building, training and deploying models.
+AWS CloudWatch monitors applications and infrastructure with logs, metrics and alarms.
+AWS IAM manages access and permissions for AWS services and resources securely.
+AWS VPC allows creating isolated virtual networks within the AWS cloud.
+AWS CloudFront is a CDN that delivers content with low latency globally.
+AWS Route53 is a scalable DNS and domain registration service.
+AWS SNS is a messaging service for sending notifications to multiple subscribers.
+AWS SQS is a message queue service for decoupling distributed systems.
+AWS Step Functions orchestrates serverless workflows using visual state machines.
+AWS Glue is a serverless ETL service for preparing and transforming data.
+AWS Athena allows querying data in S3 using standard SQL without infrastructure.
+AWS Cost Explorer helps analyze and optimize AWS spending and usage patterns.
+AWS Free Tier provides limited free usage of many AWS services for 12 months.
+AWS regions are geographic areas with multiple availability zones for high availability.
+AWS availability zones are isolated data centers within a region for fault tolerance.

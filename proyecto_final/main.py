@@ -1,8 +1,8 @@
 import os
-import json
 import faiss
-import boto3
 import numpy as np
+from openai import OpenAI
+from dotenv import load_dotenv
 from datetime import datetime
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
@@ -11,7 +11,14 @@ from sentence_transformers import SentenceTransformer
 from sqlalchemy import create_engine, Column, Integer, String, Text, DateTime
 from sqlalchemy.orm import DeclarativeBase, Session
 
-app = FastAPI(title="Chat con Documentos - RAG + Claude", version="3.0")
+load_dotenv()
+
+deepseek = OpenAI(
+    api_key=os.getenv("DEEPSEEK_API_KEY"),
+    base_url="https://api.deepseek.com"
+)
+
+app = FastAPI(title="Chat con Documentos - RAG + DeepSeek", version="4.0")
 
 app.add_middleware(
     CORSMiddleware,
@@ -19,9 +26,8 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
 embedder = SentenceTransformer("all-MiniLM-L6-v2")
-bedrock = boto3.client("bedrock-runtime", region_name="us-east-1")
-MODEL_ID = "anthropic.claude-3-haiku-20240307-v1:0"
 
 # --- Base de datos ---
 engine = create_engine("sqlite:///historial.db")
@@ -58,9 +64,10 @@ indice = faiss.IndexFlatL2(embeddings.shape[1])
 indice.add(embeddings)
 print(f"✅ {len(chunks)} fragmentos indexados")
 
-def llamar_claude(pregunta: str, contexto: str) -> str:
+def llamar_deepseek(pregunta: str, contexto: str) -> str:
     prompt = f"""You are a helpful AI assistant. Answer the question based only on the provided context.
 If the answer is not in the context, say "I don't have enough information to answer that."
+Always respond in the same language as the question.
 
 Context:
 {contexto}
@@ -68,14 +75,12 @@ Context:
 Question: {pregunta}
 
 Answer:"""
-    body = json.dumps({
-        "anthropic_version": "bedrock-2023-05-31",
-        "max_tokens": 300,
-        "messages": [{"role": "user", "content": prompt}]
-    })
-    response = bedrock.invoke_model(modelId=MODEL_ID, body=body)
-    result = json.loads(response["body"].read())
-    return result["content"][0]["text"]
+    response = deepseek.chat.completions.create(
+        model="deepseek-chat",
+        messages=[{"role": "user", "content": prompt}],
+        max_tokens=300
+    )
+    return response.choices[0].message.content
 
 # --- Modelos ---
 class Pregunta(BaseModel):
@@ -85,7 +90,7 @@ class Pregunta(BaseModel):
 # --- Endpoints ---
 @app.get("/")
 def inicio():
-    return {"app": "Chat con Documentos RAG + Claude", "version": "3.0", "fragmentos": len(chunks)}
+    return {"app": "Chat con Documentos RAG + DeepSeek", "version": "4.0", "fragmentos": len(chunks)}
 
 @app.get("/health")
 def health():
@@ -111,8 +116,8 @@ def chat(pregunta: Pregunta):
     contexto = "\n".join(contexto_chunks)
 
     try:
-        respuesta = llamar_claude(pregunta.texto, contexto)
-    except Exception:
+        respuesta = llamar_deepseek(pregunta.texto, contexto)
+    except Exception as e:
         respuesta = f"Contexto encontrado: {contexto_chunks[0]}"
 
     with Session(engine) as session:

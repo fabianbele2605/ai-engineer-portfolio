@@ -5,3 +5,16 @@ Azure Functions is a serverless compute service similar to AWS Lambda.
 Azure Container Registry stores and manages Docker container images.
 Azure OpenAI Service provides access to GPT-4 and other OpenAI models via API.
 Azure Kubernetes Service manages containerized applications with Kubernetes.
+Azure DevOps provides tools for CI/CD pipelines and software development lifecycle.
+Azure Active Directory manages identity and access for cloud applications.
+Azure Cosmos DB is a globally distributed NoSQL database with multiple APIs.
+Azure SQL Database is a fully managed relational database service in the cloud.
+Azure Machine Learning provides tools for building and deploying ML models at scale.
+Azure Cognitive Services provides pre-built AI APIs for vision, speech and language.
+Azure Logic Apps automates workflows and integrates applications without code.
+Azure Service Bus is a message broker for reliable communication between services.
+Azure Monitor collects and analyzes telemetry data from Azure resources.
+Azure CDN delivers high-bandwidth content to users with low latency globally.
+Azure App Service hosts web applications, REST APIs and mobile backends.
+Azure regions are geographic locations where Azure data centers are located.
+Azure provides hybrid cloud solutions connecting on-premises infrastructure with cloud.

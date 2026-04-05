@@ -6,3 +6,4 @@ __pycache__/
 .env
 *.db
 proyecto_final/frontend/node_modules/
+.env

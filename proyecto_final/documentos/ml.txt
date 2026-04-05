@@ -1,7 +1,34 @@
 Machine learning is a subset of AI where models learn patterns from data without explicit programming.
 Supervised learning uses labeled data to train models for classification and regression tasks.
 Unsupervised learning finds hidden patterns in data without labels, used for clustering.
+Reinforcement learning trains agents to make decisions by rewarding correct actions.
 Overfitting occurs when a model memorizes training data but fails on new unseen data.
+Underfitting occurs when a model is too simple to capture the underlying patterns in data.
 Cross-validation is a technique to evaluate models by splitting data into multiple folds.
 Random Forest is an ensemble method that combines multiple decision trees for better accuracy.
 Neural networks are inspired by the human brain and form the basis of deep learning.
+Deep learning uses multiple layers of neural networks to learn complex representations.
+Convolutional Neural Networks are used for image recognition and computer vision tasks.
+Recurrent Neural Networks are used for sequential data like text and time series.
+Transformers replaced RNNs for NLP tasks using attention mechanisms for better performance.
+Transfer learning reuses a pre-trained model as a starting point for a new task.
+Fine-tuning adjusts a pre-trained model on a specific dataset for a particular task.
+Embeddings are dense vector representations that capture semantic meaning of data.
+FAISS is a library for efficient similarity search and clustering of dense vectors.
+RAG combines retrieval systems with language models to answer questions from documents.
+Prompt engineering is the practice of designing inputs to get better outputs from LLMs.
+Tokenization converts text into numerical tokens that language models can process.
+Attention mechanism allows models to focus on relevant parts of the input sequence.
+Batch normalization normalizes layer inputs to stabilize and speed up training.
+Dropout randomly deactivates neurons during training to prevent overfitting.
+Learning rate controls how much model weights are updated during each training step.
+Gradient descent is an optimization algorithm that minimizes the loss function.
+Backpropagation calculates gradients to update neural network weights during training.
+Accuracy measures the percentage of correct predictions made by a classification model.
+Precision measures how many predicted positives are actually positive.
+Recall measures how many actual positives were correctly identified by the model.
+F1-score is the harmonic mean of precision and recall, useful for imbalanced datasets.
+Confusion matrix shows the breakdown of correct and incorrect predictions by class.
+Train-test split divides data into training and evaluation sets to measure generalization.
+Feature engineering transforms raw data into meaningful inputs for machine learning models.
+Normalization scales features to a common range to improve model training stability.

@@ -1,0 +1,24 @@
+Rust is a systems programming language focused on performance, reliability and memory safety.
+Rust was created by Mozilla Research and first released in 2010.
+Rust prevents memory bugs like null pointer dereferences and buffer overflows at compile time.
+Rust ownership system ensures memory safety without needing a garbage collector.
+Rust borrowing rules allow references to data without taking ownership of it.
+Rust lifetimes ensure references are always valid and never point to freed memory.
+Rust structs are custom data types that group related fields together.
+Rust enums can hold different types of data and are used for pattern matching.
+Rust match expressions provide exhaustive pattern matching similar to switch statements.
+Rust Result type handles errors explicitly without exceptions using Ok and Err variants.
+Rust Option type represents values that may or may not exist using Some and None.
+Rust traits define shared behavior similar to interfaces in other languages.
+Rust generics allow writing code that works with multiple data types.
+Rust iterators provide a way to process sequences of elements efficiently.
+Rust closures are anonymous functions that can capture variables from their environment.
+Rust cargo is the package manager and build system for Rust projects.
+Rust crates are packages of Rust code published on crates.io.
+Rust is used for systems programming, WebAssembly, game development and CLI tools.
+Rust can interoperate with Python using PyO3 to write high-performance Python extensions.
+Rust WebAssembly allows running Rust code in the browser at near-native speed.
+Rust is consistently voted the most loved programming language in Stack Overflow surveys.
+Rust async/await enables writing asynchronous code for high-performance network applications.
+Rust Tokio is an asynchronous runtime for building reliable network applications.
+Rust Actix-web is a powerful web framework for building fast HTTP servers.

@@ -4,3 +4,27 @@ Python supports multiple programming paradigms including procedural, object-orie
 Python has a vast ecosystem of libraries like NumPy, Pandas, PyTorch and FastAPI.
 Python is the most popular language for AI, Machine Learning and Data Science.
 Virtual environments in Python allow isolating dependencies per project using venv or conda.
+Python uses indentation to define code blocks instead of curly braces like other languages.
+Python lists are ordered, mutable collections that can store elements of different types.
+Python dictionaries store key-value pairs and are equivalent to JSON objects.
+Python functions are defined with the def keyword and can have default parameter values.
+Python classes support object-oriented programming with inheritance and encapsulation.
+Python f-strings allow embedding expressions inside string literals using curly braces.
+Python try-except blocks handle errors gracefully without crashing the application.
+Python list comprehensions provide a concise way to create lists from existing iterables.
+Python generators are memory-efficient iterators that yield values one at a time.
+Python decorators are functions that modify the behavior of other functions.
+NumPy provides fast mathematical operations on arrays and matrices for scientific computing.
+Pandas provides DataFrame structures for data manipulation and analysis similar to Excel.
+PyTorch is a deep learning framework used for building and training neural networks.
+Scikit-learn provides simple and efficient tools for machine learning in Python.
+FastAPI is a modern web framework for building APIs with automatic documentation.
+Uvicorn is an ASGI server used to run FastAPI applications in production.
+Pydantic provides data validation and settings management using Python type annotations.
+SQLAlchemy is a SQL toolkit and ORM for database interactions in Python.
+Requests is a popular HTTP library for making API calls in Python.
+Pytest is the most popular testing framework for Python applications.
+Python pip is the package installer for installing third-party libraries.
+Python 3.12 introduced performance improvements and better error messages.
+Python type hints allow specifying expected data types for better code documentation.
+Python async/await enables writing asynchronous code for better performance with I/O operations.
