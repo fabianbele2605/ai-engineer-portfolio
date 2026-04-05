@@ -1,0 +1,7 @@
+AWS is Amazon Web Services, the world's most comprehensive cloud computing platform.
+AWS EC2 provides virtual servers in the cloud for running applications.
+AWS S3 is an object storage service for storing files, images and datasets.
+AWS Lambda allows running code without managing servers, paying only for execution time.
+AWS ECR is a container registry for storing and deploying Docker images.
+AWS App Runner deploys containerized applications automatically with auto-scaling.
+AWS Bedrock provides access to foundation models like Claude and Llama via API.

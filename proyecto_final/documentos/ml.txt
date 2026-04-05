@@ -1,0 +1,7 @@
+Machine learning is a subset of AI where models learn patterns from data without explicit programming.
+Supervised learning uses labeled data to train models for classification and regression tasks.
+Unsupervised learning finds hidden patterns in data without labels, used for clustering.
+Overfitting occurs when a model memorizes training data but fails on new unseen data.
+Cross-validation is a technique to evaluate models by splitting data into multiple folds.
+Random Forest is an ensemble method that combines multiple decision trees for better accuracy.
+Neural networks are inspired by the human brain and form the basis of deep learning.

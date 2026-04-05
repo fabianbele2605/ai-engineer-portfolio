@@ -1,0 +1,7 @@
+Azure is Microsoft's cloud computing platform launched in 2010.
+Azure Virtual Machines provide scalable computing resources in the cloud.
+Azure Blob Storage is an object storage solution for unstructured data.
+Azure Functions is a serverless compute service similar to AWS Lambda.
+Azure Container Registry stores and manages Docker container images.
+Azure OpenAI Service provides access to GPT-4 and other OpenAI models via API.
+Azure Kubernetes Service manages containerized applications with Kubernetes.

@@ -1,0 +1,10 @@
+{
+  "nombre": "Fabian",
+  "fase": 1,
+  "temas": [
+    "variables",
+    "funciones",
+    "archivos",
+    "clases"
+  ]
+}
