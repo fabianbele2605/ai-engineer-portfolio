@@ -1,10 +1,12 @@
 import os
+import re
 import faiss
 import numpy as np
 from openai import OpenAI
 from dotenv import load_dotenv
 from datetime import datetime
-from fastapi import FastAPI, HTTPException
+from pypdf import PdfReader
+from fastapi import FastAPI, HTTPException, UploadFile, File
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from sentence_transformers import SentenceTransformer
@@ -47,29 +49,52 @@ Base.metadata.create_all(engine)
 
 # --- Documentos ---
 def limpiar_markdown(texto: str) -> str:
-    import re
-    texto = re.sub(r'```[\s\S]*?```', '', texto)  # bloques de código
-    texto = re.sub(r'#{1,6}\s+', '', texto)        # títulos
-    texto = re.sub(r'\*{1,2}([^*]+)\*{1,2}', r'\1', texto)  # negrita/cursiva
-    texto = re.sub(r'`([^`]+)`', r'\1', texto)    # código inline
-    texto = re.sub(r'\|.*\|', '', texto)           # tablas
-    texto = re.sub(r'^[-*+]\s+', '', texto, flags=re.MULTILINE)  # listas
-    texto = re.sub(r'>\s+', '', texto)             # citas
+    texto = re.sub(r'```[\s\S]*?```', '', texto)
+    texto = re.sub(r'#{1,6}\s+', '', texto)
+    texto = re.sub(r'\*{1,2}([^*]+)\*{1,2}', r'\1', texto)
+    texto = re.sub(r'`([^`]+)`', r'\1', texto)
+    texto = re.sub(r'\|.*\|', '', texto)
+    texto = re.sub(r'^[-*+]\s+', '', texto, flags=re.MULTILINE)
+    texto = re.sub(r'>\s+', '', texto)
     return texto.strip()
+
+def texto_a_chunks(texto: str, fuente: str):
+    nuevos_chunks, nuevas_fuentes = [], []
+    for linea in texto.split("\n"):
+        linea = linea.strip()
+        if len(linea) > 30:
+            nuevos_chunks.append(linea)
+            nuevas_fuentes.append(fuente)
+    return nuevos_chunks, nuevas_fuentes
 
 def cargar_documentos(carpeta="documentos"):
     chunks, fuentes = [], []
     for archivo in os.listdir(carpeta):
-        if archivo.endswith(".txt") or archivo.endswith(".md"):
-            with open(f"{carpeta}/{archivo}", "r") as f:
-                contenido = f.read()
-                if archivo.endswith(".md"):
-                    contenido = limpiar_markdown(contenido)
-                for linea in contenido.split("\n"):
-                    linea = linea.strip()
-                    if len(linea) > 30:  # ignorar líneas muy cortas
-                        chunks.append(linea)
-                        fuentes.append(archivo.replace(".txt", "").replace(".md", ""))
+        ruta = f"{carpeta}/{archivo}"
+        if archivo.endswith(".txt"):
+            with open(ruta, "r") as f:
+                c, f2 = texto_a_chunks(f.read(), archivo.replace(".txt", ""))
+        elif archivo.endswith(".md"):
+            with open(ruta, "r") as f:
+                c, f2 = texto_a_chunks(limpiar_markdown(f.read()), archivo.replace(".md", ""))
+        elif archivo.endswith(".pdf"):
+            reader = PdfReader(ruta)
+            texto = " ".join(page.extract_text() or "" for page in reader.pages)
+            # Dividir en chunks de ~500 caracteres con overlap
+            palabras = texto.split()
+            chunk_size = 100
+            overlap = 25
+            step = chunk_size - overlap
+            for i in range(0, len(palabras), step):
+                chunk = " ".join(palabras[i:i + chunk_size])
+                if len(chunk) > 50:
+                    chunks.append(chunk)
+                    fuentes.append(archivo.replace(".pdf", ""))
+        else:
+            continue
+        if not archivo.endswith(".pdf"):
+            chunks.extend(c)
+            fuentes.extend(f2)
     return chunks, fuentes
 
 chunks, fuentes = cargar_documentos()
@@ -148,6 +173,25 @@ def chat(pregunta: Pregunta):
         "contexto": contexto_chunks,
         "fuentes": fuentes_resultado
     }
+
+@app.post("/subir")
+async def subir_documento(archivo: UploadFile = File(...)):
+    ext = archivo.filename.split(".")[-1].lower()
+    if ext not in ["txt", "pdf", "md"]:
+        raise HTTPException(status_code=400, detail="Solo se permiten archivos .txt, .pdf o .md")
+
+    ruta = f"documentos/{archivo.filename}"
+    with open(ruta, "wb") as f:
+        f.write(await archivo.read())
+
+    # Reindexar
+    global chunks, fuentes, embeddings, indice
+    chunks, fuentes = cargar_documentos()
+    embeddings = embedder.encode(chunks).astype("float32")
+    indice = faiss.IndexFlatL2(embeddings.shape[1])
+    indice.add(embeddings)
+
+    return {"mensaje": f"'{archivo.filename}' subido y indexado", "fragmentos_totales": len(chunks)}
 
 @app.get("/historial")
 def historial():

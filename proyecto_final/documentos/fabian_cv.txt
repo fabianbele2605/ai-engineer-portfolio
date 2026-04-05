@@ -1,0 +1,15 @@
+Fabian Beleño es un Backend y DevOps Engineer ubicado en Barranquilla, Colombia.
+Fabian tiene experiencia desde 2024 construyendo sistemas escalables y desplegándolos en la nube.
+Las habilidades de Fabian incluyen Go, TypeScript, Python, Node.js y NestJS.
+Fabian tiene experiencia con Docker, Kubernetes, Terraform, Azure y AWS.
+Fabian conoce CI/CD, GitHub Actions, PostgreSQL, MongoDB, Prisma y TypeORM.
+Fabian tiene experiencia con n8n, AI Agents, Linux y Bash.
+Fabian construyó APIs de alto rendimiento usando Go y Node.js.
+Fabian containerizó aplicaciones con Docker y las orquestó con Kubernetes.
+Fabian implementó infraestructura como código usando Terraform en Azure y AWS.
+Fabian configuró pipelines CI/CD con GitHub Actions para automatizar despliegues.
+Fabian tiene experiencia en inteligencia artificial, RAG, embeddings y LLMs.
+Fabian construyó un sistema de chat con documentos usando FastAPI, FAISS y DeepSeek.
+El email de contacto de Fabian es fabianrobles321@outlook.com.
+El GitHub de Fabian es github.com/fabianbele2605.
+Fabian está enfocado en rendimiento, automatización y arquitecturas seguras.

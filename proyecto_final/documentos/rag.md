@@ -101,3 +101,9 @@ def rag(pregunta, k=2):
 | `python/fase4/01_embeddings.py` | Embeddings + similitud semántica |
 | `python/fase4/02_faiss.py` | Búsqueda vectorial con FAISS |
 | `python/fase4/03_rag.py` | Pipeline RAG completo |
+RAG significa Retrieval Augmented Generation, una técnica que combina recuperación de información con generación de texto.
+RAG resuelve el problema de los LLMs que generan información incorrecta o desactualizada (alucinaciones).
+RAG funciona recuperando documentos relevantes de una base de conocimiento y usándolos como contexto para el LLM.
+RAG permite a los modelos de lenguaje responder preguntas basadas en documentos específicos sin necesidad de reentrenamiento.
+RAG mejora la precisión de las respuestas al anclar al modelo en hechos reales recuperados de documentos.
+El pipeline RAG tiene tres pasos: indexar documentos, recuperar fragmentos relevantes y generar respuesta con contexto.
