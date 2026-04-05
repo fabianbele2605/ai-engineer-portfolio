@@ -3,16 +3,35 @@ import json
 import faiss
 import boto3
 import numpy as np
+from datetime import datetime
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
 from sentence_transformers import SentenceTransformer
+from sqlalchemy import create_engine, Column, Integer, String, Text, DateTime
+from sqlalchemy.orm import DeclarativeBase, Session
 
-app = FastAPI(title="Chat con Documentos - RAG + Claude", version="2.0")
+app = FastAPI(title="Chat con Documentos - RAG + Claude", version="3.0")
 embedder = SentenceTransformer("all-MiniLM-L6-v2")
 bedrock = boto3.client("bedrock-runtime", region_name="us-east-1")
-
 MODEL_ID = "anthropic.claude-3-haiku-20240307-v1:0"
 
+# --- Base de datos ---
+engine = create_engine("sqlite:///historial.db")
+
+class Base(DeclarativeBase):
+    pass
+
+class Conversacion(Base):
+    __tablename__ = "conversaciones"
+    id = Column(Integer, primary_key=True)
+    pregunta = Column(Text)
+    respuesta = Column(Text)
+    fuentes = Column(String)
+    fecha = Column(DateTime, default=datetime.utcnow)
+
+Base.metadata.create_all(engine)
+
+# --- Documentos ---
 def cargar_documentos(carpeta="documentos"):
     chunks, fuentes = [], []
     for archivo in os.listdir(carpeta):
@@ -41,24 +60,24 @@ Context:
 Question: {pregunta}
 
 Answer:"""
-
     body = json.dumps({
         "anthropic_version": "bedrock-2023-05-31",
         "max_tokens": 300,
         "messages": [{"role": "user", "content": prompt}]
     })
-
     response = bedrock.invoke_model(modelId=MODEL_ID, body=body)
     result = json.loads(response["body"].read())
     return result["content"][0]["text"]
 
+# --- Modelos ---
 class Pregunta(BaseModel):
     texto: str
     k: int = 3
 
+# --- Endpoints ---
 @app.get("/")
 def inicio():
-    return {"app": "Chat con Documentos RAG + Claude", "fragmentos": len(chunks)}
+    return {"app": "Chat con Documentos RAG + Claude", "version": "3.0", "fragmentos": len(chunks)}
 
 @app.get("/health")
 def health():
@@ -83,7 +102,18 @@ def chat(pregunta: Pregunta):
     fuentes_resultado = [fuentes[i] for i in indices[0]]
     contexto = "\n".join(contexto_chunks)
 
-    respuesta = llamar_claude(pregunta.texto, contexto)
+    try:
+        respuesta = llamar_claude(pregunta.texto, contexto)
+    except Exception:
+        respuesta = f"Contexto encontrado: {contexto_chunks[0]}"
+
+    with Session(engine) as session:
+        session.add(Conversacion(
+            pregunta=pregunta.texto,
+            respuesta=respuesta,
+            fuentes=",".join(fuentes_resultado)
+        ))
+        session.commit()
 
     return {
         "pregunta": pregunta.texto,
@@ -91,3 +121,18 @@ def chat(pregunta: Pregunta):
         "contexto": contexto_chunks,
         "fuentes": fuentes_resultado
     }
+
+@app.get("/historial")
+def historial():
+    with Session(engine) as session:
+        conversaciones = session.query(Conversacion).order_by(Conversacion.fecha.desc()).limit(10).all()
+        return {"historial": [
+            {
+                "id": c.id,
+                "pregunta": c.pregunta,
+                "respuesta": c.respuesta,
+                "fuentes": c.fuentes,
+                "fecha": c.fecha
+            }
+            for c in conversaciones
+        ]}
