@@ -1,6 +1,6 @@
-import { useState } from "react";
-import { MessageSquare, FileText, History, X } from "lucide-react";
-import { getHistorial, getDocumentos, type HistorialItem, type Documento } from "@/lib/api";
+import { useState, useRef } from "react";
+import { MessageSquare, FileText, History, X, Upload } from "lucide-react";
+import { getHistorial, getDocumentos, subirDocumento, type HistorialItem, type Documento } from "@/lib/api";
 
 interface ChatSidebarProps {
   open: boolean;
@@ -13,6 +13,26 @@ export function ChatSidebar({ open, onClose }: ChatSidebarProps) {
   const [documentos, setDocumentos] = useState<Documento[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+
+  const [uploading, setUploading] = useState(false);
+  const [uploadMsg, setUploadMsg] = useState("");
+  const fileRef = useRef<HTMLInputElement>(null);
+
+  const handleUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    setUploading(true);
+    setUploadMsg("");
+    try {
+      const result = await subirDocumento(file);
+      setUploadMsg(`✅ ${result.mensaje}`);
+      loadDocs();
+    } catch {
+      setUploadMsg("❌ Error al subir el archivo");
+    } finally {
+      setUploading(false);
+    }
+  };
 
   const loadHistory = async () => {
     setTab("history");
@@ -106,6 +126,18 @@ export function ChatSidebar({ open, onClose }: ChatSidebarProps) {
                 <span className="text-xs text-foreground truncate">{doc.nombre}</span>
               </div>
             ))}
+        </div>
+        <div className="p-3 border-t border-sidebar-border">
+          <input ref={fileRef} type="file" accept=".pdf,.txt,.md" className="hidden" onChange={handleUpload} />
+          <button
+            onClick={() => fileRef.current?.click()}
+            disabled={uploading}
+            className="w-full flex items-center justify-center gap-2 py-2 px-3 rounded-lg bg-primary text-primary-foreground text-xs font-medium hover:opacity-90 disabled:opacity-50 transition-opacity"
+          >
+            <Upload className="w-3.5 h-3.5" />
+            {uploading ? "Subiendo..." : "Subir documento"}
+          </button>
+          {uploadMsg && <p className="text-xs text-center mt-2 text-muted-foreground">{uploadMsg}</p>}
         </div>
       </aside>
     </>

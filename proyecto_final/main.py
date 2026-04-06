@@ -180,9 +180,13 @@ async def subir_documento(archivo: UploadFile = File(...)):
     if ext not in ["txt", "pdf", "md"]:
         raise HTTPException(status_code=400, detail="Solo se permiten archivos .txt, .pdf o .md")
 
+    contenido = await archivo.read()
+    if len(contenido) > 10 * 1024 * 1024:  # 10MB máximo
+        raise HTTPException(status_code=400, detail="El archivo no puede superar 10MB")
+
     ruta = f"documentos/{archivo.filename}"
     with open(ruta, "wb") as f:
-        f.write(await archivo.read())
+        f.write(contenido)
 
     # Reindexar
     global chunks, fuentes, embeddings, indice

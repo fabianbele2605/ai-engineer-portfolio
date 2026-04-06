@@ -28,6 +28,14 @@ export async function sendChat(texto: string, k = 3): Promise<ChatResponse> {
   return res.json();
 }
 
+export async function subirDocumento(archivo: File): Promise<{mensaje: string, fragmentos_totales: number}> {
+  const form = new FormData();
+  form.append("archivo", archivo);
+  const res = await fetch(`${API_BASE}/subir`, { method: "POST", body: form });
+  if (!res.ok) throw new Error("Error al subir archivo");
+  return res.json();
+}
+
 export async function getHistorial(): Promise<HistorialItem[]> {
   const res = await fetch(`${API_BASE}/historial`);
   if (!res.ok) throw new Error("Error al obtener historial");
